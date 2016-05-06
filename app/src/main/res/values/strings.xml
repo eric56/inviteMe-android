@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Invvite.Me</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">E-mail</string>
+    <string name="prompt_password">Senha</string>
+    <string name="action_sign_in">Entrar</string>
+    <string name="action_sign_in_short">Entrar</string>
+    <string name="error_invalid_email">Email Invalido</string>
+    <string name="error_invalid_password">Senha curta</string>
+    <string name="error_incorrect_password">Usuário e/ou Senha incorreto </string>
+    <string name="error_field_required">Campo obrigatório</string>
+    <string name="permission_rationale">"Oermissão é necessário, para autocompletar os emails"</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="string_null"/>
+    <string name="forgetPass"><u>Esqueceu a senha?</u></string>
+</resources>
