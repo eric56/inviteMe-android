@@ -35,7 +35,7 @@
                 android:layout_width="250dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="20dp"
                 android:contentDescription="@string/string_null"
                 android:src="@drawable/logo_novo" />
 
@@ -58,10 +58,9 @@
                     android:maxLines="1"
                     android:nextFocusForward="@+id/password"
                     android:padding="7dp"
-                    android:layout_marginBottom="5dp"
                     android:singleLine="true"
-                    android:textColorHint="@color/white"
-                    android:textColor="@color/red"/>
+                    android:textColor="@color/primary"
+                    android:background="@drawable/background_inputtext"/>
 
             </LinearLayout>
 
@@ -84,8 +83,8 @@
                     android:maxLines="1"
                     android:padding="7dp"
                     android:singleLine="true"
-                    android:textColorHint="@color/white"
-                    android:textColor="@color/red" />
+                    android:textColor="@color/primary"
+                    android:background="@drawable/background_inputtext"/>
 
             </LinearLayout>
 
@@ -109,6 +108,82 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal|center_vertical"
+                android:weightSum="1">
+
+                <View style="@style/Divider"
+                    android:layout_width="0dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_weight="0.4"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="OU"
+                    android:textSize="17sp"
+                    android:textColor="@color/white"
+                    android:layout_weight="0.2"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+                <View style="@style/Divider"
+                    android:layout_width="0dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_weight="0.4"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal|center_vertical"
+                android:weightSum="1">
+
+                <com.facebook.login.widget.LoginButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal|center_vertical"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:text="Não tem conta?"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:padding="5dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:text="Cadastre-se"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/red"
+                    android:padding="5dp"
+                    />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/forgetPassword"
                 android:layout_width="wrap_content"
@@ -118,7 +193,7 @@
                 android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/red"
-                android:layout_marginTop="40dp"/>
+                android:layout_marginTop="30dp"/>
 
         </LinearLayout>
 
