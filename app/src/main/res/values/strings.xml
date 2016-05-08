@@ -1,22 +1,36 @@
 <resources>
+    <!-- Nome do aplicativo -->
     <string name="app_name">Invvite.Me</string>
 
     <!-- IDs para os SDKs -->
     <string name="facebook_app_id">1031292770291208</string>
 
-    <!-- Strings related to login -->
+    <!-- Strings relacionadas a tela de login -->
     <string name="prompt_email">E-mail</string>
     <string name="prompt_password">Senha</string>
     <string name="action_sign_in">Entrar</string>
     <string name="action_sign_in_short">Entrar</string>
+    <string name="forgetPass"><u>Esqueceu a senha?</u></string>
+    <string name="or">OU</string>
+    <string name="without_account">Não tem conta?</string>
+    <string name="register">Cadastre-se</string>
+
+    <!-- String relacionada a tela SplashActivity -->
+    <string name="title_activity_splash">SplashActivity</string>
+
+    <!-- Strings relacionadas a MainActivity -->
+    <string name="title_activity_main">MainActivity</string>
+
+    <!-- Strings de Erro -->
     <string name="error_invalid_email">Email Inválido</string>
     <string name="error_invalid_password">Senha curta</string>
     <string name="error_incorrect_password">Usuário e/ou Senha incorreto </string>
     <string name="error_field_required">Campo obrigatório</string>
+
+    <!-- Strings de Permissão -->
     <string name="permission_rationale">"Permissão é necessário, para autocompletar os emails"</string>
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="forgetPass"><u>Esqueceu a senha?</u></string>
 
     <!-- Usar essa string quando requerer um strinText mas não ter texto em si -->
-    <string name="string_null"/>
+    <string name="string_null" />
+
 </resources>
