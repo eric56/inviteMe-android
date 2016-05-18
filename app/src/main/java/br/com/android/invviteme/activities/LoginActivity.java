@@ -10,12 +10,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -29,19 +31,24 @@ import java.util.List;
 
 import br.com.android.invviteme.R;
 import br.com.android.invviteme.animations.HideShowProgressBar;
+import br.com.android.invviteme.constants.ApiCall;
 import br.com.android.invviteme.delegate.AutoCompleteEmailTaskDelegate;
-import br.com.android.invviteme.delegate.UserLoginDelegate;
+import br.com.android.invviteme.httpServices.HttpServiceLogin;
+import br.com.android.invviteme.model.LoginModel;
+import br.com.android.invviteme.model.User;
 import br.com.android.invviteme.tasks.AutoCompleteEmailTask;
-import br.com.android.invviteme.tasks.UserLoginTask;
 import br.com.android.invviteme.utils.FacebookUtils;
 import br.com.android.invviteme.utils.ValidFields;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class LoginActivity extends AppCompatActivity implements AutoCompleteEmailTaskDelegate, UserLoginDelegate {
+public class LoginActivity extends AppCompatActivity implements AutoCompleteEmailTaskDelegate {
 
     private static final int REQUEST_READ_CONTACTS = 0;
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -50,6 +57,7 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
     private View mLoginFormView;
     private LoginButton facebookLoginButton;
     private Button mEmailSignInButton;
+    private TextView linkSingUp;
 
     CallbackManager callbackManager;
 
@@ -67,6 +75,14 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+
+        linkSingUp.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, Register.class));
+                finish();
             }
         });
 
@@ -103,6 +119,7 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
         mEmailSignInButton = (Button) findViewById(R.id.login_button);
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        linkSingUp = (TextView)findViewById(R.id.linkSingUp);
     }
 
     private void populateAutoComplete() {
@@ -144,15 +161,17 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
     }
 
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
+        HideShowProgressBar.showProgress(true,mProgressView,mLoginFormView, LoginActivity.this);
+
         mEmailView.setError(null);
         mPasswordView.setError(null);
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-        boolean cancel = false;
+
         View focusView = null;
+
+        boolean cancel = false;
+
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
@@ -168,11 +187,37 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
             cancel = true;
         }
         if (cancel) {
+            HideShowProgressBar.showProgress(false,mProgressView,mLoginFormView, LoginActivity.this);
             focusView.requestFocus();
         } else {
-            HideShowProgressBar.showProgress(true,mProgressView,mLoginFormView, LoginActivity.this);
-            mAuthTask = new UserLoginTask(email, password, this);
-            mAuthTask.execute((Void) null);
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(ApiCall.BASE_URL)
+                    .build();
+
+            HttpServiceLogin serviceLogin = retrofit.create(HttpServiceLogin.class);
+
+            Call<User> call = serviceLogin.invokeLogin(new LoginModel(email,password));
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    //// TODO: //TODO: converter o json e setar o user no SharedPreference e redirecionar para a main
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    HideShowProgressBar.showProgress(false,mProgressView,mLoginFormView, LoginActivity.this);
+                    Log.d("invviteMe", t.getMessage());
+                    Snackbar.make(mEmailView, R.string.error_process, Snackbar.LENGTH_LONG)
+                            .setAction(android.R.string.ok, new View.OnClickListener() {
+                                @Override
+                                @TargetApi(Build.VERSION_CODES.M)
+                                public void onClick(View v) {
+                                }
+                            });
+                }
+            });
+
         }
     }
 
@@ -180,14 +225,6 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
     public void setAdapterEmail(List<String> listEmails) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_dropdown_item_1line, listEmails);
         mEmailView.setAdapter(adapter);
-    }
-
-    @Override
-    public void resultLogin(boolean result) {
-        if(!result){
-            mAuthTask = null;
-            HideShowProgressBar.showProgress(false,mProgressView,mLoginFormView, LoginActivity.this);
-        }
     }
 
     @Override

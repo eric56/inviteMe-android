@@ -15,6 +15,16 @@
     <string name="without_account">Não tem conta?</string>
     <string name="register">Cadastre-se</string>
 
+    <!-- Strings relacionadas a RegisterActivity-->
+    <string name="title_activity_register">Cadastro</string>
+    <string name="last_name">Sobrenome</string>
+    <string name="firt_name">Nome</string>
+    <string name="prompt_confirm_password">Confirmar a Senha</string>
+    <string name="birthday">Data de Nascimento</string>
+    <string name="male">Masculino</string>
+    <string name="female">Feminino</string>
+    <string name="action_sign_up">Cadastrar</string>
+
     <!-- String relacionada a tela SplashActivity -->
     <string name="title_activity_splash">SplashActivity</string>
 
@@ -26,6 +36,8 @@
     <string name="error_invalid_password">Senha curta</string>
     <string name="error_incorrect_password">Usuário e/ou Senha incorreto </string>
     <string name="error_field_required">Campo obrigatório</string>
+    <string name="error_process">Ocorreu um erro durante o processo</string>
+    <string name="error_password_different">A senha e confirmação da senha devem ser iguais</string>
 
     <!-- Strings de Permissão -->
     <string name="permission_rationale">"Permissão é necessário, para autocompletar os emails"</string>
