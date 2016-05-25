@@ -48,7 +48,7 @@ import retrofit2.Retrofit;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class Register extends AppCompatActivity implements AutoCompleteEmailTaskDelegate {
+public class RegisterActivity extends AppCompatActivity implements AutoCompleteEmailTaskDelegate {
 
     private static final int REQUEST_READ_CONTACTS = 0;
 
@@ -126,7 +126,7 @@ public class Register extends AppCompatActivity implements AutoCompleteEmailTask
     }
 
     private void attemptRegister(){
-        HideShowProgressBar.showProgress(true,progressBar,form,Register.this);
+        HideShowProgressBar.showProgress(true,progressBar,form,RegisterActivity.this);
 
         View focusView = null;
         firstName.setError(null);
@@ -179,7 +179,7 @@ public class Register extends AppCompatActivity implements AutoCompleteEmailTask
         }
 
         if (cancel) {
-            HideShowProgressBar.showProgress(false,progressBar,form,Register.this);
+            HideShowProgressBar.showProgress(false,progressBar,form,RegisterActivity.this);
             focusView.requestFocus();
         } else {
             User user = getUser();
@@ -199,7 +199,7 @@ public class Register extends AppCompatActivity implements AutoCompleteEmailTask
 
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
-                        HideShowProgressBar.showProgress(false,progressBar,form,Register.this);
+                        HideShowProgressBar.showProgress(false,progressBar,form,RegisterActivity.this);
                         Log.d("invviteMe", t.getMessage());
                         Snackbar.make(email, R.string.error_process, Snackbar.LENGTH_LONG)
                                 .setAction(android.R.string.ok, new View.OnClickListener() {
@@ -212,7 +212,7 @@ public class Register extends AppCompatActivity implements AutoCompleteEmailTask
                 });
 
             }else{
-                HideShowProgressBar.showProgress(false,progressBar,form,Register.this);
+                HideShowProgressBar.showProgress(false,progressBar,form,RegisterActivity.this);
                 Snackbar.make(email, R.string.error_process, Snackbar.LENGTH_LONG)
                         .setAction(android.R.string.ok, new View.OnClickListener() {
                             @Override
@@ -282,7 +282,7 @@ public class Register extends AppCompatActivity implements AutoCompleteEmailTask
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,@NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_READ_CONTACTS) {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 populateAutoComplete();

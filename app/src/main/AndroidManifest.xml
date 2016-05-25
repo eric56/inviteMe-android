@@ -47,9 +47,14 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Register"
+            android:name=".activities.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme"></activity>
+            android:parentActivityName=".activities.LoginActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.android.invviteme.activities.LoginActivity" />
+        </activity>
     </application>
 
 </manifest>

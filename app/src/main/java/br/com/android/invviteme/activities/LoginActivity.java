@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -66,6 +67,12 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
+
+        if(AccessToken.getCurrentAccessToken() != null){
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            finish();
+        }
+
         setContentView(R.layout.activity_login);
 
         referencesUI();
@@ -81,7 +88,7 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
         linkSingUp.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, Register.class));
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
                 finish();
             }
         });

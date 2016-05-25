@@ -29,7 +29,7 @@
     <string name="title_activity_splash">SplashActivity</string>
 
     <!-- Strings relacionadas a MainActivity -->
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Eventos</string>
 
     <!-- Strings de Erro -->
     <string name="error_invalid_email">Email Inválido</string>
@@ -42,7 +42,19 @@
     <!-- Strings de Permissão -->
     <string name="permission_rationale">"Permissão é necessário, para autocompletar os emails"</string>
 
-    <!-- Usar essa string quando requerer um strinText mas não ter texto em si -->
+    <!-- Usar essa string quando requerer um string text mas não ter texto em si -->
     <string name="string_null" />
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Strings do navigation drawer -->
+    <string name="profile">Perfil</string>
+    <string name="events_near_me">Eventos Próximos</string>
+    <string name="home">Home</string>
+    <string name="logout">Sair</string>
+    <string name="detail">Detalhar</string>
 
 </resources>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 
 import br.com.android.invviteme.InvviteMe;
