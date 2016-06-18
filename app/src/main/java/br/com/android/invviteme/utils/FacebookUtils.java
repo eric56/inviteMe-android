@@ -3,9 +3,7 @@ package br.com.android.invviteme.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Eric Rosa on 08/05/2016.
- */
+
 public class FacebookUtils {
 
     public static List<String> getPermissionsReadFacebook(){

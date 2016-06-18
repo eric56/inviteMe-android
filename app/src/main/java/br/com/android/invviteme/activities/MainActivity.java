@@ -1,6 +1,8 @@
 package br.com.android.invviteme.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +14,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.List;
 
 import br.com.android.invviteme.R;
 import br.com.android.invviteme.fragments.FragmentEvent;
@@ -27,11 +37,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     Toolbar toolbar;
 
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        mAuth = FirebaseAuth.getInstance();
         manager = getSupportFragmentManager();
         referenceUI();
         if((int) getResources().getDimension(R.dimen.margin_start_drawer) == (int) getResources().getDimension(R.dimen.drawer_width)) {
@@ -44,6 +58,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.add(R.id.fragmentMain,fragmentEvent,"fragmentEvent");
             fragmentTransaction.commit();
         }
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+                    if(AccessToken.getCurrentAccessToken() != null){
+                        LoginManager.getInstance().logOut();
+                    }
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        };
+
     }
 
     private void configureDrawer() {
@@ -109,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_event_near_me) {
 
         } else if (id == R.id.nav_logout) {
-
+            mAuth.signOut();
         }
 
         if(!isDrawerOpen){
@@ -117,4 +146,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return true;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
 }
