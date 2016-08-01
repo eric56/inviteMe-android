@@ -15,13 +15,21 @@
       },
       "oauth_client": [
         {
+          "client_id": "348859542503-huclfclheeu7rqfrs0s6bt4u7kn8ia6t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.android.invviteme",
+            "certificate_hash": "DF71DCCE21276118631A651075D7C7BAACD3F345"
+          }
+        },
+        {
           "client_id": "348859542503-9qq3111vong7no20be0abp5gkdm3qr8h.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDGyxoOi1tlm2Sm5RP_OpIY0P7IUMfxHtg"
+          "current_key": "AIzaSyBywpiBa-P0u78dB3FCdqI3bpZch-qaLoQ"
         }
       ],
       "services": {

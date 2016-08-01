@@ -1,5 +1,7 @@
 package br.com.android.invviteme.activities;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,33 +11,46 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.List;
+import com.pkmmte.view.CircularImageView;
 
 import br.com.android.invviteme.R;
+import br.com.android.invviteme.enums.KeysSharedPreference;
 import br.com.android.invviteme.fragments.FragmentEvent;
+import br.com.android.invviteme.fragments.FragmentEventsNearMe;
+import br.com.android.invviteme.fragments.FragmentProfile;
+import br.com.android.invviteme.utils.SharedPreferencesUtils;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    FragmentManager manager;
-    boolean isDrawerOpen = false;
+    private FragmentManager manager;
+    private boolean isDrawerOpen = false;
 
-    DrawerLayout drawer;
-    FrameLayout contentPage;
-    ActionBarDrawerToggle toggle;
-    NavigationView navigationView;
-    Toolbar toolbar;
+    private DrawerLayout drawer;
+    private FrameLayout contentPage;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
+
+    private TextView nameUserDrawer, emailUserDrawer;
+    private CircularImageView photoUserDrawer;
+
+    public FirebaseAuth getmAuth() {
+        return mAuth;
+    }
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -47,11 +62,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FacebookSdk.sdkInitialize(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
         manager = getSupportFragmentManager();
-        referenceUI();
+
         if((int) getResources().getDimension(R.dimen.margin_start_drawer) == (int) getResources().getDimension(R.dimen.drawer_width)) {
             isDrawerOpen = true;
         }
+
+        referenceUI();
+        referenceUIDrawer();
         configureDrawer();
+
         if(savedInstanceState == null){
             FragmentEvent fragmentEvent = new FragmentEvent();
             FragmentTransaction fragmentTransaction = manager.beginTransaction();
@@ -67,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if(AccessToken.getCurrentAccessToken() != null){
                         LoginManager.getInstance().logOut();
                     }
+                    SharedPreferencesUtils.clearSharedPreferenceUsers(MainActivity.this);
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     finish();
                 }
@@ -83,6 +103,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        if(mAuth.getCurrentUser() != null) {
+            nameUserDrawer.setText(SharedPreferencesUtils.selectByKeyFromSPUsers(MainActivity.this, KeysSharedPreference.NAMEUSER.getKey()));
+            emailUserDrawer.setText(SharedPreferencesUtils.selectByKeyFromSPUsers(MainActivity.this, KeysSharedPreference.EMAILUSER.getKey()));
+        }
     }
 
     private void referenceUI() {
@@ -91,6 +115,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView= (NavigationView) findViewById(R.id.nav_view);
         contentPage = (FrameLayout) findViewById(R.id.fragmentMain);
+    }
+
+    private void referenceUIDrawer(){
+        View headerLayout = navigationView.getHeaderView(0);
+        nameUserDrawer = (TextView) headerLayout.findViewById(R.id.nameUserDrawer);
+        emailUserDrawer = (TextView) headerLayout.findViewById(R.id.emailUserDrawer);
+        photoUserDrawer = (CircularImageView) headerLayout.findViewById(R.id.photoUserDrawer);
+    }
+
+    private DialogInterface.OnClickListener buttonDialog() {
+        return new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                switch (id) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        ProgressDialog dialogLogout = new ProgressDialog(MainActivity.this);
+                        dialogLogout.setIndeterminate(true);
+                        dialogLogout.setCancelable(false);
+                        dialogLogout.setMessage(getString(R.string.logout_message_dialog));
+                        dialogLogout.show();
+                        mAuth.signOut();
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        };
     }
 
     @Override
@@ -107,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -132,13 +182,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Dar o fragmentReplace no fragment em cada if corresponde
         int id = item.getItemId();
         if (id == R.id.nav_home) {
-
+            FragmentEvent fragmentEvent = new FragmentEvent();
+            FragmentTransaction fragmentTransaction = manager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentMain,fragmentEvent,"fragmentEvent");
+            fragmentTransaction.commit();
         } else if (id == R.id.nav_profile) {
-
+            FragmentProfile fragmentProfile = new FragmentProfile();
+            FragmentTransaction fragmentTransaction = manager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentMain,fragmentProfile,"fragmentProfile");
+            fragmentTransaction.commit();
         } else if (id == R.id.nav_event_near_me) {
-
+            FragmentEventsNearMe fragmentEventsNearMe = new FragmentEventsNearMe();
+            FragmentTransaction fragmentTransaction = manager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentMain,fragmentEventsNearMe,"fragmentEventsNearMe");
+            fragmentTransaction.commit();
         } else if (id == R.id.nav_logout) {
-            mAuth.signOut();
+            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+            dialog.setIcon(android.R.drawable.ic_menu_info_details);
+            dialog.setTitle(R.string.title_alert_logout);
+            dialog.setPositiveButton(R.string.positive_button, buttonDialog());
+            dialog.setNegativeButton(R.string.negative_button, buttonDialog());
+            dialog.setCancelable(false);
+            dialog.show();
         }
 
         if(!isDrawerOpen){

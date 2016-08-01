@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/view_photo"
+        android:title="@string/view_photo"/>
+
+    <item
+        android:id="@+id/import_photo_facebook"
+        android:title="@string/import_photo_facebook"/>
+
+    <item
+        android:id="@+id/import_photo_album"
+        android:title="@string/import_photo_album"/>
+
+</menu>

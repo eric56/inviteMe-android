@@ -28,7 +28,6 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -55,12 +54,15 @@ import java.util.Objects;
 import br.com.android.invviteme.R;
 import br.com.android.invviteme.animations.HideShowProgressBar;
 import br.com.android.invviteme.delegate.AutoCompleteEmailTaskDelegate;
+import br.com.android.invviteme.enums.KeysSharedPreference;
 import br.com.android.invviteme.enums.StatusData;
 import br.com.android.invviteme.model.StatusType;
 import br.com.android.invviteme.model.Users;
 import br.com.android.invviteme.tasks.AutoCompleteEmailTask;
+import br.com.android.invviteme.utils.ConsoleTags;
 import br.com.android.invviteme.utils.FacebookUtils;
 import br.com.android.invviteme.utils.PasswordManager;
+import br.com.android.invviteme.utils.SharedPreferencesUtils;
 import br.com.android.invviteme.utils.ValidFields;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -68,7 +70,6 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class LoginActivity extends AppCompatActivity implements AutoCompleteEmailTaskDelegate {
 
     private static final int REQUEST_READ_CONTACTS = 0;
-    private static final String TAG = "invviteMeError";
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -120,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
             @Override
             public void onClick(View view) {
                 mLoginFormView.setVisibility(View.GONE);
-                LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         loginFacebook(loginResult.getAccessToken());
@@ -150,7 +151,7 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Users user = dataSnapshot.getValue(Users.class);
-                            if(providers != null && providers.get(0).contains("facebook") && AccessToken.getCurrentAccessToken() != null && user == null){
+                            if(FacebookUtils.isLoggedFacebook(providers) && user == null){
                                 GraphRequest request = GraphRequest.newMeRequest(
                                     AccessToken.getCurrentAccessToken(),
                                     new GraphRequest.GraphJSONObjectCallback() {
@@ -164,13 +165,15 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
                                                 }
                                                 String phoneNumber = null;
                                                 String birthDay = null;
-                                                Users newUser = new Users(profileUser.getFirstName(), profileUser.getLastName(),birthDay,
+                                                final Users newUser = new Users(profileUser.getFirstName(), profileUser.getLastName(),birthDay,
                                                         phoneNumber,object.getString("email"),null,gender,new StatusType(StatusData.ATIVO));
                                                 DatabaseReference refUsers = FirebaseDatabase.getInstance().getReference("users");
                                                 refUsers.child(firebaseUser.getUid()).setValue(newUser).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if(task.isSuccessful()){
+                                                            SharedPreferencesUtils.insertInSPUsers(LoginActivity.this, KeysSharedPreference.NAMEUSER.getKey(), newUser.getCompleteName());
+                                                            SharedPreferencesUtils.insertInSPUsers(LoginActivity.this, KeysSharedPreference.EMAILUSER.getKey(), newUser.getCompleteName());
                                                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                                             finish();
                                                         }else{
@@ -192,6 +195,8 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
                                 request.executeAsync();
                             }else{
                                 if(user.getStatusType().getId() == 1){
+                                    SharedPreferencesUtils.insertInSPUsers(LoginActivity.this, KeysSharedPreference.NAMEUSER.getKey(), user.getCompleteName());
+                                    SharedPreferencesUtils.insertInSPUsers(LoginActivity.this, KeysSharedPreference.EMAILUSER.getKey(), user.getCompleteName());
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     finish();
                                 } else if(user.getStatusType().getId() == 5){
@@ -211,6 +216,8 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
                             mAuth.signOut();
                         }
                     });
+                }else{
+                    HideShowProgressBar.showProgress(false,mProgressView, mLoginFormView, LoginActivity.this);
                 }
             }
         };
@@ -218,13 +225,15 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
     }
 
     private void loginFacebook(AccessToken accessToken) {
+        HideShowProgressBar.showProgress(true,mProgressView, mLoginFormView, LoginActivity.this);
         if( accessToken != null ){
             AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
             mAuth.signInWithCredential(credential).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(!task.isSuccessful()){
-                        mLoginFormView.setVisibility(View.VISIBLE);
+                        Log.w(ConsoleTags.ERROR_INVVITE,task.getException());
+                        HideShowProgressBar.showProgress(false,mProgressView, mLoginFormView, LoginActivity.this);
                         Toast.makeText(LoginActivity.this, getString(R.string.error_sing_in),Toast.LENGTH_LONG).show();
                     }
                 }
@@ -318,14 +327,14 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Log.w(TAG,"signInEmail", task.getException());
+                            Log.w(ConsoleTags.ERROR_INVVITE, task.getException());
                             HideShowProgressBar.showProgress(false,mProgressView,mLoginFormView, LoginActivity.this);
                             Toast.makeText(LoginActivity.this, getString(R.string.error_sing_in),Toast.LENGTH_LONG).show();
                         }
                     }
                 });
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-                Log.w(TAG,"PassowrdEncrypt", e);
+                Log.w(ConsoleTags.ERROR_INVVITE, e);
             }
         }
     }

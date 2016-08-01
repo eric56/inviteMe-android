@@ -96,13 +96,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".activities.EventsNearMeActivity"
-            android:label="@string/title_activity_events_near_me">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.android.invviteme.activities.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

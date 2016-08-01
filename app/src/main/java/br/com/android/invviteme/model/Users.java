@@ -98,6 +98,10 @@ public class Users implements Serializable {
         return admin;
     }
 
+    public String getCompleteName(){
+        return  name + " " + lastName;
+    }
+
     @Exclude
     @Override
     public int hashCode() {

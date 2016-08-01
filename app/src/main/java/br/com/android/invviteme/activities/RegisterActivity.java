@@ -47,6 +47,7 @@ import br.com.android.invviteme.delegate.AutoCompleteEmailTaskDelegate;
 import br.com.android.invviteme.model.StatusType;
 import br.com.android.invviteme.model.Users;
 import br.com.android.invviteme.tasks.AutoCompleteEmailTask;
+import br.com.android.invviteme.utils.ConsoleTags;
 import br.com.android.invviteme.utils.PasswordManager;
 import br.com.android.invviteme.utils.ValidFields;
 
@@ -103,6 +104,7 @@ public class RegisterActivity extends AppCompatActivity implements AutoCompleteE
                                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                                 finish();
                             }else{
+                                Log.w(ConsoleTags.ERROR_INVVITE,task.getException());
                                 HideShowProgressBar.showProgress(false,progressBar,form,RegisterActivity.this);
                                 Toast.makeText(RegisterActivity.this,R.string.error_process,Toast.LENGTH_LONG).show();
                             }
@@ -233,7 +235,7 @@ public class RegisterActivity extends AppCompatActivity implements AutoCompleteE
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(!task.isSuccessful()){
-                            Log.w("invviteMeError","registerUser",task.getException());
+                            Log.w(ConsoleTags.ERROR_INVVITE,task.getException());
                             if(task.getException() != null && task.getException().getMessage().contains("email address is already")){
                                 HideShowProgressBar.showProgress(false,progressBar,form,RegisterActivity.this);
                                 Toast.makeText(RegisterActivity.this, R.string.email_is_already, Toast.LENGTH_LONG).show();
@@ -262,7 +264,7 @@ public class RegisterActivity extends AppCompatActivity implements AutoCompleteE
                     phoneUser.getText().toString(),email.getText().toString(),PasswordManager.encrypt(password.getText().toString()),
                     genderType,statusType);
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+            Log.w(ConsoleTags.ERROR_INVVITE,e);
         }
         return  null;
     }
