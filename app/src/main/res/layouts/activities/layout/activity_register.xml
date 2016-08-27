@@ -174,7 +174,8 @@
                     android:layout_weight="0.5"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    style="@style/CustomOthersView"/>
 
                 <RadioButton
                     android:id="@+id/male"
@@ -184,7 +185,8 @@
                     android:layout_weight="0.5"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    style="@style/CustomOthersView"/>
 
             </RadioGroup>
 

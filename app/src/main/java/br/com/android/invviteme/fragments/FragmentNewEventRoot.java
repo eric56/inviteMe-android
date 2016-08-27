@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -31,6 +32,7 @@ public class FragmentNewEventRoot extends Fragment {
         setupViews(view);
         setupViewPager(pagesStepsNewEvent);
         setupTabIcons();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -60,4 +62,9 @@ public class FragmentNewEventRoot extends Fragment {
         tabStepsNewEvent.setupWithViewPager(viewPager);
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.save_event).setVisible(true);
+        super.onPrepareOptionsMenu(menu);
+    }
 }

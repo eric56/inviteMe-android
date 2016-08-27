@@ -46,7 +46,7 @@
     <!-- Strings relacionadas a tela de eventos proximos a mim-->
     <string name="title_activity_events_near_me">Eventos Próximos</string>
     <string name="localization_actual">Localização Atual</string>
-    <string name="diameter_limit">Até (KM)</string>
+    <string name="diameter_limit">Até (%1$d KM)</string>
     <string name="show_event_near_me">Mostrar Eventos Próximos</string>
     <string name="search_event">Buscar Evento</string>
 
@@ -88,6 +88,13 @@
 
     <!-- Strings relacionadas a DetailEventActivity -->
     <string name="title_activity_detail_event">Detalhe</string>
+
+    <!-- Strings relacionadas a Criação de Evento -->
+    <string name="name_event">Nome Evento</string>
+    <string name="date_init_event">Data Início Evento</string>
+    <string name="date_finish_event">Data Fim Evento</string>
+    <string name="time_init_event">Hora Início Evento</string>
+    <string name="time_finish_event">Hora Fim Evento</string>
 
     <!-- Strings de menu -->
     <string name="view_photo">Ver foto</string>

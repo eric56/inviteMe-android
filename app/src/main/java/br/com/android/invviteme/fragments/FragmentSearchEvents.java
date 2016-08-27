@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,11 +32,14 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class FragmentSearchEvents extends Fragment implements OnMapReadyCallback {
 
+    private TextView labelDiameterDistance;
     private EditText searchEvent;
     private SeekBar distanceDiameter;
     private Switch isLocalizationActual;
     private CheckBox isShowEventsNearMe;
     private SupportMapFragment mapFragment;
+
+    private int limit = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,11 +50,40 @@ public class FragmentSearchEvents extends Fragment implements OnMapReadyCallback
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_events,container,false);
+
+        referenceUI(view);
+        configureUI();
+
+        return view;
+    }
+
+    private void configureUI() {
+        distanceDiameter.setProgress(limit);
+        labelDiameterDistance.setText(String.format(getString(R.string.diameter_limit), limit));
+        distanceDiameter.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int value, boolean b) {
+                labelDiameterDistance.setText(String.format(getString(R.string.diameter_limit), limit = value));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    private void referenceUI(View view) {
         searchEvent = (EditText)view.findViewById(R.id.searchField);
         distanceDiameter = (SeekBar)view.findViewById(R.id.distanceDiameter);
         isLocalizationActual = (Switch)view.findViewById(R.id.isLocalizationActual);
         isShowEventsNearMe = (CheckBox) view.findViewById(R.id.isShowEventNearMe);
-        return view;
+        labelDiameterDistance = (TextView) view.findViewById(R.id.labelDistanceDiameter);
     }
 
     @Override

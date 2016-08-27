@@ -159,8 +159,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
+        //Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -172,7 +172,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.save_event) {
+            //chamar metodo para salvar o evento
             return true;
         }
 
@@ -189,21 +190,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentTransaction fragmentTransaction = manager.beginTransaction();
             fragmentTransaction.replace(R.id.fragmentMain,fragmentEvent,"fragmentEvent");
             fragmentTransaction.commit();
+            toolbar.setTitle(getString(R.string.title_activity_main));
         } else if (id == R.id.nav_profile) {
             FragmentProfile fragmentProfile = new FragmentProfile();
             FragmentTransaction fragmentTransaction = manager.beginTransaction();
             fragmentTransaction.replace(R.id.fragmentMain,fragmentProfile,"fragmentProfile");
             fragmentTransaction.commit();
+            toolbar.setTitle(getString(R.string.profile));
         }  else if (id == R.id.nav_new_event) {
             FragmentNewEventRoot fragmentNewEventRoot = new FragmentNewEventRoot();
             FragmentTransaction fragmentTransaction = manager.beginTransaction();
             fragmentTransaction.replace(R.id.fragmentMain,fragmentNewEventRoot,"fragmentNewEventRoot");
             fragmentTransaction.commit();
+            toolbar.setTitle(getString(R.string.create_event));
         } else if (id == R.id.nav_search_events) {
             FragmentSearchEvents fragmentSearchEvents = new FragmentSearchEvents();
             FragmentTransaction fragmentTransaction = manager.beginTransaction();
             fragmentTransaction.replace(R.id.fragmentMain, fragmentSearchEvents,"fragmentSearchEvents");
             fragmentTransaction.commit();
+            toolbar.setTitle(getString(R.string.search_event));
         } else if (id == R.id.nav_logout) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
             dialog.setIcon(android.R.drawable.ic_menu_info_details);

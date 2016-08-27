@@ -37,16 +37,16 @@
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:hint="@string/search_event"
+                android:textSize="13sp"
                 android:drawableStart="@drawable/places_ic_search"
                 android:background="@drawable/background_inputtext"/>
 
             <View style="@style/Divider_Grey" />
 
-            <android.support.v7.widget.CardView
-                android:orientation="vertical"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                card_view:cardBackgroundColor="@color/white"
                 android:layout_gravity="center_vertical">
 
                 <TextView
@@ -55,11 +55,12 @@
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"/>
+                    android:layout_marginStart="10dp"
+                    android:textSize="13sp"/>
 
                 <Switch
                     android:id="@+id/isLocalizationActual"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red_material"
                     android:layout_gravity="end"
@@ -70,8 +71,9 @@
                     style="@style/CustomSwitch"
                     />
 
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
+            <View style="@style/Divider_Grey"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -89,7 +91,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginEnd="10dp"
+                    android:textSize="13sp"/>
 
                 <SeekBar
                     android:id="@+id/distanceDiameter"
@@ -98,6 +101,7 @@
                     android:textColor="@color/red_material"
                     android:gravity="center_vertical"
                     android:layout_marginEnd="10dp"
+                    android:max="300"
                     style="@style/CustomOthersView"
                     />
 
@@ -125,7 +129,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:paddingTop="15dp"
-                    android:paddingBottom="15dp"/>
+                    android:paddingBottom="15dp"
+                    android:textSize="13sp"/>
 
                 <CheckBox
                     android:id="@+id/isShowEventNearMe"
