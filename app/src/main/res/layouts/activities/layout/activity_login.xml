@@ -96,16 +96,16 @@
                 android:weightSum="1">
 
                 <Button
-                    android:id="@+id/login_button"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="35dp"
-                    android:layout_weight="1"
-                    android:text="@string/action_sign_in"
-                    android:textColor="@color/white"
-                    android:background="@drawable/background_button"
-                    android:textStyle="bold" />
+                android:id="@+id/login_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="35dp"
+                android:layout_weight="1"
+                android:text="@string/action_sign_in"
+                android:textColor="@color/white"
+                android:background="@drawable/background_button"
+                android:textStyle="bold" />
 
             </LinearLayout>
 

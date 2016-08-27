@@ -11,6 +11,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,8 +29,12 @@ import br.com.android.invviteme.R;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class FragmentEventsNearMe extends Fragment implements OnMapReadyCallback {
+public class FragmentSearchEvents extends Fragment implements OnMapReadyCallback {
 
+    private EditText searchEvent;
+    private SeekBar distanceDiameter;
+    private Switch isLocalizationActual;
+    private CheckBox isShowEventsNearMe;
     private SupportMapFragment mapFragment;
 
     @Override
@@ -37,14 +45,18 @@ public class FragmentEventsNearMe extends Fragment implements OnMapReadyCallback
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_events_near_me,container,false);
+        View view = inflater.inflate(R.layout.fragment_search_events,container,false);
+        searchEvent = (EditText)view.findViewById(R.id.searchField);
+        distanceDiameter = (SeekBar)view.findViewById(R.id.distanceDiameter);
+        isLocalizationActual = (Switch)view.findViewById(R.id.isLocalizationActual);
+        isShowEventsNearMe = (CheckBox) view.findViewById(R.id.isShowEventNearMe);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapEventNearMe);
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapEvent);
         mapFragment.getMapAsync(this);
     }
 

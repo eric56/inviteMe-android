@@ -25,7 +25,9 @@
     <string name="last_name">Sobrenome</string>
     <string name="first_name">Nome</string>
     <string name="prompt_confirm_password">Confirmar a Senha</string>
+    <string name="prompt_confirm">Confirme</string>
     <string name="birthday">Data de Nascimento</string>
+    <string name="birthday_abrev">Nascimento</string>
     <string name="phone">Telefone</string>
     <string name="male">Masculino</string>
     <string name="female">Feminino</string>
@@ -43,10 +45,18 @@
 
     <!-- Strings relacionadas a tela de eventos proximos a mim-->
     <string name="title_activity_events_near_me">Eventos Próximos</string>
+    <string name="localization_actual">Localização Atual</string>
+    <string name="diameter_limit">Até (KM)</string>
+    <string name="show_event_near_me">Mostrar Eventos Próximos</string>
+    <string name="search_event">Buscar Evento</string>
+
 
     <!-- Strings relacionadas a tela de Perfil-->
     <string name="change_password">Mudar senha</string>
     <string name="edit">Editar</string>
+    <string name="status_user">Status</string>
+    <string name="gender">Sexo</string>
+    <string name="save">Salvar</string>
 
     <!-- Strings de Erro -->
     <string name="error_invalid_email">Email Inválido</string>
@@ -74,6 +84,7 @@
     <string name="home">Home</string>
     <string name="logout">Sair</string>
     <string name="detail">+ Detalhar</string>
+    <string name="create_event">Criar Evento</string>
 
     <!-- Strings relacionadas a DetailEventActivity -->
     <string name="title_activity_detail_event">Detalhe</string>

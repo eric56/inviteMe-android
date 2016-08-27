@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -30,8 +31,9 @@ import com.pkmmte.view.CircularImageView;
 import br.com.android.invviteme.R;
 import br.com.android.invviteme.enums.KeysSharedPreference;
 import br.com.android.invviteme.fragments.FragmentEvent;
-import br.com.android.invviteme.fragments.FragmentEventsNearMe;
+import br.com.android.invviteme.fragments.FragmentNewEventRoot;
 import br.com.android.invviteme.fragments.FragmentProfile;
+import br.com.android.invviteme.fragments.FragmentSearchEvents;
 import br.com.android.invviteme.utils.SharedPreferencesUtils;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         FacebookSdk.sdkInitialize(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
         manager = getSupportFragmentManager();
@@ -191,10 +194,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentTransaction fragmentTransaction = manager.beginTransaction();
             fragmentTransaction.replace(R.id.fragmentMain,fragmentProfile,"fragmentProfile");
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_event_near_me) {
-            FragmentEventsNearMe fragmentEventsNearMe = new FragmentEventsNearMe();
+        }  else if (id == R.id.nav_new_event) {
+            FragmentNewEventRoot fragmentNewEventRoot = new FragmentNewEventRoot();
             FragmentTransaction fragmentTransaction = manager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentMain,fragmentEventsNearMe,"fragmentEventsNearMe");
+            fragmentTransaction.replace(R.id.fragmentMain,fragmentNewEventRoot,"fragmentNewEventRoot");
+            fragmentTransaction.commit();
+        } else if (id == R.id.nav_search_events) {
+            FragmentSearchEvents fragmentSearchEvents = new FragmentSearchEvents();
+            FragmentTransaction fragmentTransaction = manager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentMain, fragmentSearchEvents,"fragmentSearchEvents");
             fragmentTransaction.commit();
         } else if (id == R.id.nav_logout) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);

@@ -11,9 +11,13 @@
             android:icon="@drawable/account_circle"
             android:title="@string/profile" />
         <item
-            android:id="@+id/nav_event_near_me"
+            android:id="@+id/nav_new_event"
+            android:icon="@drawable/calendar_black"
+            android:title="@string/create_event" />
+        <item
+            android:id="@+id/nav_search_events"
             android:icon="@drawable/google_maps"
-            android:title="@string/events_near_me" />
+            android:title="@string/search_event" />
 
         <item
             android:id="@+id/nav_logout"

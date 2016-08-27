@@ -4,12 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -37,14 +41,16 @@ import br.com.android.invviteme.utils.FacebookUtils;
 
 public class FragmentProfile extends Fragment {
 
-    private TextView birthday, nameHeaderProfile, emailHeaderProfile;
-    private EditText firstName, lastName, email, phone, password, confirmPassword;
+    private TextView nameHeaderProfile, emailHeaderProfile;
+    private EditText phoneProfile, statusUserProfile, birthdayProfile, passwordProfile, confirmPasswordProfile;
     private RadioGroup radioGroupGenderProfile;
-    private RadioButton radioMaleProfile, radioFemaleProfile;
-    private CircularImageView photoUser;
+    private RadioButton femaleProfile, maleProfile;
+    private View contentChangePassword, contentPasswords, formProfile;
+    private CheckBox checkAlterPassword;
     private Switch isEdit;
-    private AppCompatCheckBox checkAlterPassword;
-    private View progressBar, formProfile, inputsPasswords;
+    private CircularImageView photoUser;
+    private View progressBar;
+    private Button saveButton;
 
     private MainActivity mainActivity;
 
@@ -56,7 +62,7 @@ public class FragmentProfile extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile2,container,false);
+        View view = inflater.inflate(R.layout.fragment_profile,container,false);
 
         mainActivity = (MainActivity) getActivity();
 
@@ -100,9 +106,9 @@ public class FragmentProfile extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked){
-                    inputsPasswords.setVisibility(View.VISIBLE);
+                    contentPasswords.setVisibility(View.VISIBLE);
                 }else{
-                    inputsPasswords.setVisibility(View.GONE);
+                    contentPasswords.setVisibility(View.GONE);
                 }
             }
         });
@@ -111,29 +117,27 @@ public class FragmentProfile extends Fragment {
     }
 
     private void disableFields() {
-        firstName.setFocusable(false);
-        lastName.setFocusable(false);
-        email.setFocusable(false);
-        phone.setFocusable(false);
-        birthday.setFocusable(false);
-        password.setFocusable(false);
-        confirmPassword.setFocusable(false);
+        phoneProfile.setFocusable(false);
+        birthdayProfile.setFocusable(false);
+        passwordProfile.setFocusable(false);
+        statusUserProfile.setFocusable(false);
+        confirmPasswordProfile.setFocusable(false);
         checkAlterPassword.setChecked(false);
-        checkAlterPassword.setVisibility(View.GONE);
-        inputsPasswords.setVisibility(View.GONE);
+        contentChangePassword.setVisibility(View.GONE);
+        contentPasswords.setVisibility(View.GONE);
+        saveButton.setVisibility(View.GONE);
     }
 
     private void enableFields() {
-        firstName.setFocusable(true);
-        lastName.setFocusable(true);
-        email.setFocusable(true);
-        phone.setFocusable(true);
-        birthday.setFocusable(true);
-        password.setFocusable(true);
-        confirmPassword.setFocusable(true);
+        phoneProfile.setFocusable(true);
+        birthdayProfile.setFocusable(true);
+        passwordProfile.setFocusable(true);
+        statusUserProfile.setFocusable(true);
+        confirmPasswordProfile.setFocusable(true);
         checkAlterPassword.setChecked(false);
-        checkAlterPassword.setVisibility(View.VISIBLE);
-        inputsPasswords.setVisibility(View.GONE);
+        contentChangePassword.setVisibility(View.VISIBLE);
+        contentPasswords.setVisibility(View.GONE);
+        saveButton.setVisibility(View.VISIBLE);
     }
 
     private void requestDataCurrentUser() {
@@ -162,15 +166,12 @@ public class FragmentProfile extends Fragment {
 
     private void setFields(Users user, List<String> providers) {
         String name = user.getName()+" "+user.getLastName();
-//        nameHeaderProfile.setText(name);
-  //      emailHeaderProfile.setText(user.getEmail());
-        firstName.setText(user.getName());
-        lastName.setText(user.getLastName());
-        email.setText(user.getEmail());
+        nameHeaderProfile.setText(name);
+        emailHeaderProfile.setText(user.getLastName());
         if(FacebookUtils.isLoggedFacebook(providers)){
-            birthday.setText("-");
+            birthdayProfile.setText("-");
         }else{
-            birthday.setText(user.getBirthday());
+            birthdayProfile.setText(user.getBirthday());
         }
         if(user.getGender().equals("M")){
             radioGroupGenderProfile.check(R.id.maleProfile);
@@ -181,24 +182,24 @@ public class FragmentProfile extends Fragment {
     }
 
     private void referenceUI(View view) {
-        nameHeaderProfile = (TextView) view.findViewById(R.id.nameHeaderProfile);;
+        nameHeaderProfile = (TextView) view.findViewById(R.id.nameHeaderProfile);
         emailHeaderProfile = (TextView) view.findViewById(R.id.emailHeaderProfile);
-        firstName = (EditText) view.findViewById(R.id.firstNameProfile);
-        lastName = (EditText) view.findViewById(R.id.lastNameProfile);
-        email = (EditText) view.findViewById(R.id.emailProfile);
-        phone = (EditText) view.findViewById(R.id.phoneProfile);
-        password = (EditText) view.findViewById(R.id.passwordProfile);
-        confirmPassword = (EditText) view.findViewById(R.id.confirmPasswordProfile);
-        birthday = (TextView) view.findViewById(R.id.birthdayProfile);
+        phoneProfile = (EditText) view.findViewById(R.id.phoneProfile);
+        statusUserProfile = (EditText) view.findViewById(R.id.statusUserProfile);
+        birthdayProfile = (EditText) view.findViewById(R.id.birthdayProfile);
+        passwordProfile = (EditText) view.findViewById(R.id.passwordProfile);
+        confirmPasswordProfile = (EditText) view.findViewById(R.id.confirmPasswordProfile);
         radioGroupGenderProfile = (RadioGroup) view.findViewById(R.id.radioGroupGenderProfile);
-        radioMaleProfile = (RadioButton) view.findViewById(R.id.maleProfile);
-        radioFemaleProfile = (RadioButton) view.findViewById(R.id.femaleProfile);
-        photoUser = (CircularImageView) view.findViewById(R.id.photoUser);
-        isEdit = (Switch) view.findViewById(R.id.isEdit);
-        checkAlterPassword = (AppCompatCheckBox) view.findViewById(R.id.checkAlterPassword);
-        progressBar = view.findViewById(R.id.progressBarProfile);
+        femaleProfile = (RadioButton) view.findViewById(R.id.femaleProfile);
+        maleProfile = (RadioButton) view.findViewById(R.id.maleProfile);
+        contentChangePassword = view.findViewById(R.id.contentChangePassword);
+        contentPasswords =  view.findViewById(R.id.contentPasswords);
         formProfile = view.findViewById(R.id.scrollFormProfile);
-        inputsPasswords = view.findViewById(R.id.inputsPasswords);
+        checkAlterPassword = (CheckBox) view.findViewById(R.id.checkAlterPassword);
+        isEdit = (Switch) view.findViewById(R.id.isEdit);
+        photoUser = (CircularImageView) view.findViewById(R.id.photoUser);
+        progressBar = view.findViewById(R.id.progressBarProfile);
+        saveButton = (Button) view.findViewById(R.id.save_profile_button);
     }
 
 }

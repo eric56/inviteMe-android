@@ -173,7 +173,7 @@ public class LoginActivity extends AppCompatActivity implements AutoCompleteEmai
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if(task.isSuccessful()){
                                                             SharedPreferencesUtils.insertInSPUsers(LoginActivity.this, KeysSharedPreference.NAMEUSER.getKey(), newUser.getCompleteName());
-                                                            SharedPreferencesUtils.insertInSPUsers(LoginActivity.this, KeysSharedPreference.EMAILUSER.getKey(), newUser.getCompleteName());
+                                                            SharedPreferencesUtils.insertInSPUsers(LoginActivity.this, KeysSharedPreference.EMAILUSER.getKey(), newUser.getEmail());
                                                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                                             finish();
                                                         }else{

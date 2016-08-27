@@ -17,7 +17,7 @@
         <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
         <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
 
-        <item name="android:typeface">monospace</item>
+        <item name="android:typeface">sans</item>
 
     </style>
 
@@ -34,5 +34,34 @@
         <item name="android:yearListSelectorColor">@color/red</item>
         <item name="android:datePickerMode">calendar</item>
     </style>
+
+    <style name="CustomOthersView">
+        <item name="android:theme">@style/ColorAccentRedAppTheme</item>
+    </style>
+
+    <style name="CustomCheckBox">
+        <item name="android:theme">@style/CheckBoxAppTheme</item>
+    </style>
+
+    <style name="CustomSwitch">
+        <item name="android:theme">@style/CustomSwitchAppTheme</item>
+    </style>
+
+    <style name="CheckBoxAppTheme">
+        <item name="colorAccent">@color/red_material</item> <!-- Cor quando checked is true -->
+        <item name="android:colorControlNormal">@color/primary</item> <!-- Cor da borda quando checked is false-->
+        <item name="android:colorControlHighlight">@color/primaryDark</item> <!-- Cor de fundo quando o estado estiver mudando-->
+    </style>
+
+    <style name="CustomSwitchAppTheme">
+        <item name="colorControlNormal">@color/primary</item>
+        <item name="colorControlActivated">@color/red_material</item>
+        <item name="colorAccent">@color/red_material</item>
+    </style>
+
+    <style name="ColorAccentRedAppTheme">
+        <item name="colorAccent">@color/red_material</item>
+    </style>
+
 
 </resources>

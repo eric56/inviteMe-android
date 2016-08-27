@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contentSearchEvent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primaryDark"
+    android:paddingTop="7dp"
+    android:paddingBottom="7dp"
+    android:paddingStart="7dp"
+    android:paddingEnd="7dp"
+    android:weightSum="1">
+
+    <android.support.v7.widget.CardView
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:scaleType="centerCrop"
+        card_view:cardBackgroundColor="@color/white">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/searchField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:hint="@string/search_event"
+                android:drawableStart="@drawable/places_ic_search"
+                android:background="@drawable/background_inputtext"/>
+
+            <View style="@style/Divider_Grey" />
+
+            <android.support.v7.widget.CardView
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardBackgroundColor="@color/white"
+                android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/labelEditProfile"
+                    android:text="@string/localization_actual"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"/>
+
+                <Switch
+                    android:id="@+id/isLocalizationActual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red_material"
+                    android:layout_gravity="end"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center_vertical"
+                    style="@style/CustomSwitch"
+                    />
+
+            </android.support.v7.widget.CardView>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center_vertical"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
+
+                <TextView
+                    android:id="@+id/labelDistanceDiameter"
+                    android:text="@string/diameter_limit"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"/>
+
+                <SeekBar
+                    android:id="@+id/distanceDiameter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red_material"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    style="@style/CustomOthersView"
+                    />
+
+            </LinearLayout>
+
+            <View style="@style/Divider_Grey"/>
+
+            <android.support.v7.widget.CardView
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                card_view:cardCornerRadius="2dp"
+                card_view:cardElevation="2dp"
+                card_view:cardBackgroundColor="@color/white"
+                android:layout_gravity="center_vertical"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
+
+                <TextView
+                    android:id="@+id/labelShowEventNearMe"
+                    android:text="@string/show_event_near_me"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"/>
+
+                <CheckBox
+                    android:id="@+id/isShowEventNearMe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red_material"
+                    android:layout_gravity="end|center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    style="@style/CustomCheckBox"
+                    />
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    <fragment
+        android:id="@+id/mapEvent"
+        android:layout_marginTop="10dp"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="br.com.android.invviteme.activities.MainActivity" />
+
+    </LinearLayout>
+
